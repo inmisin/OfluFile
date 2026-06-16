@@ -42,11 +42,38 @@ void CreateFile()
     f3.id = 3;
     f3.position = p3;
 
+    struct OfluFile f4;
+    struct Vector p4;
+    p3.x = 5.5;
+    p3.y = 1.5;
+    p3.z = 3.5;
+    f3.id = 3;
+    f3.position = p4;
+
+    struct OfluFile f5;
+    struct Vector p5;
+    p3.x = 5.5;
+    p3.y = 1.5;
+    p3.z = 3.5;
+    f3.id = 3;
+    f3.position = p5;
+
+    struct OfluFile f6;
+    struct Vector p6;
+    p3.x = 5.5;
+    p3.y = 1.5;
+    p3.z = 3.5;
+    f3.id = 3;
+    f3.position = p6;
+
     FILE *file = fopen("test.oflu", "w");
 
     fwrite(&f1, sizeof(struct OfluFile), 1, file);
     fwrite(&f2, sizeof(struct OfluFile), 1, file);
     fwrite(&f3, sizeof(struct OfluFile), 1, file);
+    fwrite(&f4, sizeof(struct OfluFile), 1, file);
+    fwrite(&f5, sizeof(struct OfluFile), 1, file);
+    fwrite(&f6, sizeof(struct OfluFile), 1, file);
 
 
     fclose(file);
@@ -57,10 +84,35 @@ void ReadFile()
     struct OfluFile f;
     FILE *file = fopen("test.oflu", "r");
 
-    fread(&f, sizeof(struct OfluFile), 2, file);
-    
-    printf("What's written in the file is: %d \n" , f.id);
+    // fseek belirtilen nokta burada 0L yani başından seed_end yani en sonuna kadar git diyoruz
+    // ftell ise pointer'in hangi noktada olduğunu söylüyor bize yani burada en sona git dediğimiz için 
+    // en son bayt da
 
+    /*
+    // bu kodlar ile beraber çalışamaz aşağıdaki kod çünkü kaykmış oluyor bulunduğu komut
+    fseek(file, 0L, SEEK_END);
+    long int fileSize = ftell(file);
+    printf("uzunluk: %ld \n", fileSize);
+    int itemCount = fileSize / sizeof(struct OfluFile);
+    printf("file sayısı: %d \n", itemCount);
+    // bu kod ile beraber aşağıdaki okuma kodları çalışabilir
+    fseek(file, 0L, SEEK_SET);
+    */
+    
+    // fread bir veir okudukdan sonra hemen sonraki için hazırlık yapar yani art arta yazarsan
+    // sırayla bütün verileri çeker
+
+    
+    fread(&f, sizeof(struct OfluFile), 1, file);
+    printf("Element id: %d \n" , f.id);
+    fseek(file, 0L, SEEK_CUR);
+    printf("Current byte: %ld \n", ftell(file));
+
+    fread(&f, sizeof(struct OfluFile), 1, file);
+    printf("Element id: %d \n" , f.id);
+    fseek(file, 0L, SEEK_CUR);
+    printf("Current byte: %ld \n", ftell(file));
+    
     fclose(file);
 }
 
