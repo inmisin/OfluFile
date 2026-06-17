@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> 
 
 #pragma pack(push, 1)
 struct Vector
@@ -28,62 +29,23 @@ int HowManyDataExits(FILE *fl)
 
 void CreateFile()
 {
-    struct OfluFile f1;
-    struct Vector p1;
-    p1.x = 1.5;
-    p1.y = 2.5;
-    p1.z = 3.5;
-    f1.id = 1;
-    f1.position = p1;
 
-    struct OfluFile f2;
-    struct Vector p2;
-    p2.x = 11;
-    p2.y = 42.5;
-    p2.z = 3.1;
-    f2.id = 2;
-    f2.position = p2;
+    struct Vector p1 = {1.5,2,3};
+    struct OfluFile f1 = {1,p1};
 
-    struct OfluFile f3;
-    struct Vector p3;
-    p3.x = 5.5;
-    p3.y = 1.5;
-    p3.z = 3.5;
-    f3.id = 3;
-    f3.position = p3;
+    struct Vector p2 = {11,42.5,3.1};
+    struct OfluFile f2 = {2, p2};
+    
+    struct Vector p3 = {5.5,1.5,3.5};
+    struct OfluFile f3 = {3, p3};
 
-    struct OfluFile f4;
-    struct Vector p4;
-    p4.x = 5.5;
-    p4.y = 1.5;
-    p4.z = 3.5;
-    f4.id = 4;
-    f4.position = p4;
+    struct OfluFile datas[3] = { f1,f2,f3 };
 
-    struct OfluFile f5;
-    struct Vector p5;
-    p5.x = 5.5;
-    p5.y = 1.5;
-    p5.z = 3.5;
-    f5.id = 5;
-    f5.position = p5;
-
-    struct OfluFile f6;
-    struct Vector p6;
-    p6.x = 5.5;
-    p6.y = 1.5;
-    p6.z = 3.5;
-    f6.id = 6;
-    f6.position = p6;
 
     FILE *file = fopen("test.oflu", "w");
 
-    fwrite(&f1, sizeof(struct OfluFile), 1, file);
-    fwrite(&f2, sizeof(struct OfluFile), 1, file);
-    fwrite(&f3, sizeof(struct OfluFile), 1, file);
-    fwrite(&f4, sizeof(struct OfluFile), 1, file);
-    fwrite(&f5, sizeof(struct OfluFile), 1, file);
-    fwrite(&f6, sizeof(struct OfluFile), 1, file);
+    fwrite(&datas, sizeof(struct OfluFile), 3, file);
+
 
 
     fclose(file);
@@ -91,7 +53,6 @@ void CreateFile()
 
 void ReadFile()
 {
-    struct OfluFile f;
     FILE *file = fopen("test.oflu", "rb");
 
     // fseek belirtilen nokta burada 0L yani başından seed_end yani en sonuna kadar git diyoruz
@@ -123,11 +84,14 @@ void ReadFile()
     fseek(file, 0L, SEEK_CUR);
     printf("Current byte: %ld \n", ftell(file));
     */
+
     int count = HowManyDataExits(file);
+    struct OfluFile* datas = (struct OfluFile*)malloc(count* sizeof(struct OfluFile));
+    fread(datas, sizeof(struct OfluFile), count, file);
+
     for (int i = 0; i < count; i++)
     {
-        fread(&f, sizeof(struct OfluFile), 1, file);
-        printf("Element id: %d \n" , f.id);
+        printf("Element id: %d \n", datas[i].id);
     }
     
 
