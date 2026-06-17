@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-
+#pragma pack(push, 1)
 struct Vector
 {
     double x;
@@ -9,11 +9,13 @@ struct Vector
     double z;
 };
 
+
 struct OfluFile
 {
     int id;
     struct Vector position;
 };
+#pragma pack(pop)
 
 int HowManyDataExits(FILE *fl)
 {
@@ -52,27 +54,27 @@ void CreateFile()
 
     struct OfluFile f4;
     struct Vector p4;
-    p3.x = 5.5;
-    p3.y = 1.5;
-    p3.z = 3.5;
-    f3.id = 3;
-    f3.position = p4;
+    p4.x = 5.5;
+    p4.y = 1.5;
+    p4.z = 3.5;
+    f4.id = 4;
+    f4.position = p4;
 
     struct OfluFile f5;
     struct Vector p5;
-    p3.x = 5.5;
-    p3.y = 1.5;
-    p3.z = 3.5;
-    f3.id = 3;
-    f3.position = p5;
+    p5.x = 5.5;
+    p5.y = 1.5;
+    p5.z = 3.5;
+    f5.id = 5;
+    f5.position = p5;
 
     struct OfluFile f6;
     struct Vector p6;
-    p3.x = 5.5;
-    p3.y = 1.5;
-    p3.z = 3.5;
-    f3.id = 3;
-    f3.position = p6;
+    p6.x = 5.5;
+    p6.y = 1.5;
+    p6.z = 3.5;
+    f6.id = 6;
+    f6.position = p6;
 
     FILE *file = fopen("test.oflu", "w");
 
@@ -90,7 +92,7 @@ void CreateFile()
 void ReadFile()
 {
     struct OfluFile f;
-    FILE *file = fopen("test.oflu", "r");
+    FILE *file = fopen("test.oflu", "rb");
 
     // fseek belirtilen nokta burada 0L yani başından seed_end yani en sonuna kadar git diyoruz
     // ftell ise pointer'in hangi noktada olduğunu söylüyor bize yani burada en sona git dediğimiz için 
