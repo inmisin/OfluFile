@@ -15,6 +15,14 @@ struct OfluFile
     struct Vector position;
 };
 
+int HowManyDataExits(FILE *fl)
+{
+    fseek(fl, 0L, SEEK_END);
+    int lastByte = ftell(fl);
+    fseek(fl, 0L, SEEK_SET);
+    return lastByte / sizeof(struct OfluFile);
+}
+
 
 void CreateFile()
 {
@@ -102,7 +110,7 @@ void ReadFile()
     // fread bir veir okudukdan sonra hemen sonraki için hazırlık yapar yani art arta yazarsan
     // sırayla bütün verileri çeker
 
-    
+    /*
     fread(&f, sizeof(struct OfluFile), 1, file);
     printf("Element id: %d \n" , f.id);
     fseek(file, 0L, SEEK_CUR);
@@ -112,9 +120,19 @@ void ReadFile()
     printf("Element id: %d \n" , f.id);
     fseek(file, 0L, SEEK_CUR);
     printf("Current byte: %ld \n", ftell(file));
+    */
+    int count = HowManyDataExits(file);
+    for (int i = 0; i < count; i++)
+    {
+        fread(&f, sizeof(struct OfluFile), 1, file);
+        printf("Element id: %d \n" , f.id);
+    }
     
+
     fclose(file);
 }
+
+
 
 int main()
 {
