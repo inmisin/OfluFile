@@ -129,6 +129,8 @@ void DeleteValue()
 
 
     fread(datas, sizeof(struct MyFile),count, file);
+    fclose(file);
+
     int newCount = 0;
     for (int i = 0; i < count; i++)
     {
@@ -141,16 +143,20 @@ void DeleteValue()
         
     }
 
-    free(datas);
-    fclose(file);
+    // pointer kaydırması yaptığımız için burada kaydırdığımız kadar geri alıyoruz ki
+    // ilk adresten itibaren dosyaya yazabilelim
+    //newDatas -= newCount;
+
+    newDatas = datas;
+    
 
 
     file = fopen("test.oflu", "wb");
     
 
-    fwrite(newDatas, sizeof(struct MyFile), newCount * sizeof(struct MyFile), file);
+    fwrite(newDatas, sizeof(struct MyFile), newCount, file);
     fclose(file);
-    free(newDatas);
+    free(datas);
 }
 
 void ChooseOperation()
