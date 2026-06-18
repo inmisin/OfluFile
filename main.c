@@ -145,8 +145,7 @@ void DeleteValue()
 
     // pointer kaydırması yaptığımız için burada kaydırdığımız kadar geri alıyoruz ki
     // ilk adresten itibaren dosyaya yazabilelim
-    //newDatas -= newCount;
-
+    // burada herhangi bir değer ataması yapılmıyor sadece adres en başataki haline geliyor
     newDatas = datas;
     
 
