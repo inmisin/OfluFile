@@ -11,7 +11,7 @@ struct Vector
 };
 
 
-struct OfluFile
+struct MyFile
 {
     int id;
     struct Vector position;
@@ -23,7 +23,7 @@ int HowManyDataExits(FILE *fl)
     fseek(fl, 0L, SEEK_END);
     int lastByte = ftell(fl);
     fseek(fl, 0L, SEEK_SET);
-    return lastByte / sizeof(struct OfluFile);
+    return lastByte / sizeof(struct MyFile);
 }
 
 
@@ -31,20 +31,20 @@ void CreateFile()
 {
 
     struct Vector p1 = {1.5,2,3};
-    struct OfluFile f1 = {1,p1};
+    struct MyFile f1 = {1,p1};
 
     struct Vector p2 = {11,42.5,3.1};
-    struct OfluFile f2 = {2, p2};
+    struct MyFile f2 = {2, p2};
     
     struct Vector p3 = {5.5,1.5,3.5};
-    struct OfluFile f3 = {3, p3};
+    struct MyFile f3 = {3, p3};
 
-    struct OfluFile datas[3] = { f1,f2,f3 };
+    struct MyFile datas[3] = { f1,f2,f3 };
 
 
-    FILE *file = fopen("test.oflu", "w");
+    FILE *file = fopen("test.oflu", "wb");
 
-    fwrite(&datas, sizeof(struct OfluFile), 3, file);
+    fwrite(&datas, sizeof(struct MyFile), 3, file);
 
 
 
@@ -86,8 +86,8 @@ void ReadFile()
     */
 
     int count = HowManyDataExits(file);
-    struct OfluFile* datas = (struct OfluFile*)malloc(count* sizeof(struct OfluFile));
-    fread(datas, sizeof(struct OfluFile), count, file);
+    struct MyFile* datas = (struct MyFile*)malloc(count* sizeof(struct MyFile));
+    fread(datas, sizeof(struct MyFile), count, file);
 
     for (int i = 0; i < count; i++)
     {
@@ -98,6 +98,35 @@ void ReadFile()
     fclose(file);
 }
 
+void ChooseOperation()
+{
+    int op =
+    printf("Please choose an operation\n");
+    printf("1. Create a file\n");
+    printf("2. Add new value\n");
+    printf("3. Read a value\n");
+    printf("4. Delete a value\n");
+    scanf("%d", &op);
+
+    switch (op)
+    {
+    case 1:
+        CreateFile();
+        break;
+    case 2:
+        printf("Wut?");
+        break;
+    case 3:
+        ReadFile();
+        break;
+    case 4:
+        printf("Wut?");
+        break;
+    default:
+        printf("Undefined");
+        break;
+    }
+}
 
 
 int main()
@@ -105,6 +134,11 @@ int main()
     // tek tek kullan yoksa 
     // bellekten bilgileri aldığı için doğru çalışıp çalışmadığı belli olmuyor
     //CreateFile();
-    ReadFile();
+    //ReadFile();
+
+    // ---------------------------
+    ChooseOperation();
+    
+
     return 0;
 }
