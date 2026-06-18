@@ -158,6 +158,33 @@ void DeleteValue()
     free(datas);
 }
 
+void GetValueByID()
+{
+    printf("Type an id to get data\n");
+    int target;
+    scanf("%d", &target);
+    FILE *file = fopen("test.oflu", "r");
+    int count = HowManyDataExits(file);
+    struct MyFile *datas = (struct MyFile*)malloc( count * sizeof(struct MyFile) );
+    fread(datas, sizeof(struct MyFile), count * sizeof(struct MyFile), file);
+    struct MyFile data;
+    
+    for (int i = 0; i < count; i++)
+    {
+        if(datas[i].id == target)
+        {
+            data = datas[i]; 
+            printf("bulundu! \n");
+
+        }
+    }
+    
+    printf("Information about %d:\n", target);
+    printf("X: %.2f Y: %.2f Z: %.2f \n", data.position.x, data.position.y, data.position.z);
+    fclose(file);
+    free(datas);
+}
+
 void ChooseOperation()
 {
     int op =
@@ -166,6 +193,7 @@ void ChooseOperation()
     printf("2. Add new value\n");
     printf("3. Read a value\n");
     printf("4. Delete a value\n");
+    printf("5. Get a value by id\n");
     scanf("%d", &op);
 
     switch (op)
@@ -181,6 +209,9 @@ void ChooseOperation()
         break;
     case 4:
         DeleteValue();
+        break;
+    case 5:
+        GetValueByID();
         break;
     default:
         printf("Wut?");
